@@ -1,0 +1,32 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: springboot-cache-demo
+# 配置数据库信息和连接池
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/cache?characterEncoding=utf8&useSSL=false&serverTimezone=UTC
+    password: root
+    username: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      minimum-idle: 1
+      maximum-pool-size: 15
+      idle-timeout: 30000
+      connection-timeout: 20000
+# 开启jpa自动建表
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+# 配置缓存,初始缓存容量,最大容量,过期时间(这里配置写入后过期时间)
+  cache:
+    type: caffeine
+    caffeine:
+      spec: initialCapacity=10,maximumSize=200,expireAfterWrite=3s
+# 配置controller路径
+swagger:
+  base-package: com.gj.web
+  title: springboot使用caffeine缓存
